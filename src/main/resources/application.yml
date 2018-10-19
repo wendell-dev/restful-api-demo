@@ -1,0 +1,22 @@
+﻿server:
+  port: 80
+spring:
+  application:
+    name: restful-api-demo
+  devtools:
+    restart:
+      enabled: true
+
+#swagger 配置
+swagger: 
+  title: API示例
+  desc: 基于springBoot编写的简单restful-api示例
+  version: 0.0.1.SNAPSHOT
+  termsOfServiceUrl: javascript:void(0)
+  license: Apache 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
+  basePackage: com.restful.api.demo.controller
+  groupName: 默认API示例分组
+  contactName: wendell
+  contactUrl: https://github.com/wendell-dev/restful-api-demo.git
+  contactEmail: 727169395@qq.com
