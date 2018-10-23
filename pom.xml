@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>restful-api-demo</name>
-	<description>基于springBoot编写的简单restful-api示例</description>
+	<description>基于springBoot编写的RESful-API</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
