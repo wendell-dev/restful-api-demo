@@ -1,11 +1,11 @@
-package com.restful.api.demo.core;
+package com.restful.api.demo.core.enums;
 
 /**
- * 业务消息枚举类
+ * 业务消息枚举类,也是web层API响应固定格式内容
  * 
  * @author wendell
  */
-public enum BusinessMsgEnum {
+public enum MsgEnum {
 
 	SUCCESS(200, "操作成功"),
 	ERROR(400, "操作失败"),
@@ -19,7 +19,7 @@ public enum BusinessMsgEnum {
 	private Integer code;
 	private String msg;
 
-	private BusinessMsgEnum(Integer code, String msg) {
+	private MsgEnum(Integer code, String msg) {
 		this.code = code;
 		this.msg = msg;
 	}

@@ -1,4 +1,4 @@
-package com.restful.api.demo.core;
+package com.restful.api.demo.core.handler;
 
 import java.util.List;
 
@@ -16,7 +16,10 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import com.restful.api.demo.core.enums.MsgEnum;
+import com.restful.api.demo.core.exception.AccessException;
+import com.restful.api.demo.core.exception.BusinessException;
 
 /**
  * 全局异常Handler
@@ -51,6 +54,17 @@ public class GlobalRestExceptionHandler {
 	}
 
 	/**
+	 * 非法参数异常
+	 * 
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler(value = IllegalArgumentException.class)
+	public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException e) {
+		return ResponseEntity.badRequest().body(MsgEnum.ERROR.msg(e.getMessage()));
+	}
+
+	/**
 	 * 参数缺失异常
 	 * 
 	 * @param e
@@ -59,19 +73,7 @@ public class GlobalRestExceptionHandler {
 	@ExceptionHandler(value = MissingServletRequestParameterException.class)
 	public ResponseEntity<String> missingServletRequestParameterExceptionHandler(
 			MissingServletRequestParameterException e) {
-		return ResponseEntity.badRequest().body(BusinessMsgEnum.ERROR.msg(e.getParameterName() + "参数缺失"));
-	}
-
-	/**
-	 * 参数类型不匹配异常,集成自TypeMismatchException
-	 * 
-	 * @param e
-	 * @return
-	 */
-	@ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
-	public ResponseEntity<String> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
-		return ResponseEntity.badRequest()
-				.body(BusinessMsgEnum.ERROR.msg("参数类型不匹配,参数" + e.getName() + "类型应该为" + e.getRequiredType()));
+		return ResponseEntity.badRequest().body(MsgEnum.ERROR.msg(e.getParameterName() + "参数缺失"));
 	}
 
 	/**
@@ -82,8 +84,8 @@ public class GlobalRestExceptionHandler {
 	 */
 	@ExceptionHandler(value = TypeMismatchException.class)
 	public ResponseEntity<String> typeMismatchExceptionHandler(TypeMismatchException e) {
-		return ResponseEntity.badRequest().body(
-				BusinessMsgEnum.ERROR.msg("参数类型不匹配,参数" + e.getPropertyName() + "类型应该为" + e.getRequiredType()));
+		return ResponseEntity.badRequest()
+				.body(MsgEnum.ERROR.msg("参数类型不匹配,参数" + e.getPropertyName() + "类型应该为" + e.getRequiredType()));
 	}
 
 	/**
@@ -94,10 +96,10 @@ public class GlobalRestExceptionHandler {
 	 */
 	@ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<String> methodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e) {
-		// METHOD_NOT_ALLOWED 405
-		return ResponseEntity.badRequest().body(BusinessMsgEnum.ERROR.msg(e.getMethod() + "请求方法不支持"));
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
+				.body(MsgEnum.ERROR.msg(e.getMethod() + "请求方法不支持"));
 	}
-	
+
 	/**
 	 * 媒体类型不支持异常
 	 * 
@@ -106,8 +108,8 @@ public class GlobalRestExceptionHandler {
 	 */
 	@ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
 	public ResponseEntity<String> httpMediaTypeNotSupportedExceptionHandler(HttpMediaTypeNotSupportedException e) {
-		// UNSUPPORTED_MEDIA_TYPE 415
-		return ResponseEntity.badRequest().body(BusinessMsgEnum.ERROR.msg(e.getContentType() + "媒体类型不支持"));
+		return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+				.body(MsgEnum.ERROR.msg(e.getContentType() + "媒体类型不支持"));
 	}
 
 	/**
@@ -128,18 +130,7 @@ public class GlobalRestExceptionHandler {
 		}
 		String body = sb.toString();
 		logger.error(body);
-		return ResponseEntity.badRequest().body(BusinessMsgEnum.ERROR.msg(body));
-	}
-
-	/**
-	 * 非法参数异常
-	 * 
-	 * @param e
-	 * @return
-	 */
-	@ExceptionHandler(value = IllegalArgumentException.class)
-	public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException e) {
-		return ResponseEntity.badRequest().body(BusinessMsgEnum.ERROR.msg(e.getMessage()));
+		return ResponseEntity.badRequest().body(MsgEnum.ERROR.msg(body));
 	}
 
 	/**
@@ -151,11 +142,11 @@ public class GlobalRestExceptionHandler {
 	@ExceptionHandler(value = RestClientException.class)
 	public ResponseEntity<String> restClientExceptionHandler(RestClientException e) {
 		logger.error(e.getMessage(), e);
-		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(BusinessMsgEnum.RPC_ERROR.toString());
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(MsgEnum.RPC_ERROR.toString());
 	}
 
 	/**
-	 * 系统级异常
+	 * 系统异常
 	 * 
 	 * @param e
 	 * @return
@@ -163,6 +154,6 @@ public class GlobalRestExceptionHandler {
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<String> exceptionHandler(Exception e) {
 		logger.error(e.getMessage(), e);
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(BusinessMsgEnum.ERROR.toString());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(MsgEnum.ERROR.toString());
 	}
 }

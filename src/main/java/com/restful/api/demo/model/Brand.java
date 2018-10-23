@@ -15,9 +15,10 @@ public class Brand {
 
 	@ApiModelProperty(value = "品牌名称")
 	private String name;
-	
-	public Brand() {}
-	
+
+	public Brand() {
+	}
+
 	public Brand(Integer id) {
 		super();
 		this.id = id;
@@ -58,14 +59,17 @@ public class Brand {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	/**
+	 * 重写equals方法，只要id相同则认为是同一个数据
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Brand) {
-			Brand brand= (Brand) obj;
-            return this.id == brand.getId();
-        }
-        return false;
+			Brand brand = (Brand) obj;
+			return this.id == brand.getId();
+		}
+		return false;
 	}
 
 }

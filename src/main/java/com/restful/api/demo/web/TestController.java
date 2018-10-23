@@ -1,4 +1,4 @@
-package com.restful.api.demo.controller;
+package com.restful.api.demo.web;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restful.api.demo.core.BusinessException;
-import com.restful.api.demo.core.BusinessMsgEnum;
+import com.restful.api.demo.core.enums.MsgEnum;
+import com.restful.api.demo.core.exception.BusinessException;
 import com.restful.api.demo.model.Brand;
 
 import io.swagger.annotations.Api;
@@ -63,7 +63,7 @@ public class TestController {
 			return ResponseEntity.noContent().build();
 		}
 		brands.remove(new Brand(id));
-		return ResponseEntity.ok(BusinessMsgEnum.SUCCESS.msg("删除成功"));
+		return ResponseEntity.ok(MsgEnum.SUCCESS.msg("删除成功"));
 	}
 	
 	@ApiOperation(value = "更新品牌信息")
