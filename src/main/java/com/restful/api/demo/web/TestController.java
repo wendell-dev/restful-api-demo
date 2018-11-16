@@ -55,7 +55,7 @@ public class TestController {
 
 	@ApiOperation(value = "根据品牌编号删除品牌信息")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable(name = "id", required = true) Integer id) {
+	public ResponseEntity<String> deleteById(@PathVariable(name = "id", required = true) Long id) {
 		if (StringUtils.isEmpty(id)) {
 			throw new BusinessException("品牌编号必传");
 		}
@@ -92,7 +92,7 @@ public class TestController {
 	
 	@ApiOperation(value = "根据品牌编号获取品牌信息")
 	@GetMapping("/{id}")
-	public ResponseEntity<Brand> getById(@PathVariable(name = "id", required = true) Integer id) {
+	public ResponseEntity<Brand> getById(@PathVariable(name = "id", required = true) Long id) {
 		if (StringUtils.isEmpty(id)) {
 			throw new BusinessException("品牌编号必传");
 		}
@@ -100,7 +100,7 @@ public class TestController {
 			throw new BusinessException("数据异常");
 		}
 		for(Brand brand: brands) {
-			if(id == brand.getId()) {
+			if(id.equals(brand.getId())) {
 				return ResponseEntity.ok(brand);
 			}
 		}

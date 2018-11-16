@@ -32,8 +32,7 @@ public class PwdGeneratorUtils {
 			sb.append(list.get(i));
 		}
 		String afterShuffle = sb.toString();
-		String result = afterShuffle.substring(5, 13);
-		return result;
+		return afterShuffle.substring(5, 13);
 	}
 
 	/**

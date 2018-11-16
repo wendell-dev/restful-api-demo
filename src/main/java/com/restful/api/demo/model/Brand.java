@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class Brand {
 
 	@ApiModelProperty(value = "品牌编号")
-	private Integer id;
+	private Long id;
 
 	@ApiModelProperty(value = "品牌名称")
 	private String name;
@@ -19,12 +19,12 @@ public class Brand {
 	public Brand() {
 	}
 
-	public Brand(Integer id) {
+	public Brand(Long id) {
 		super();
 		this.id = id;
 	}
 
-	public Brand(Integer id, String name) {
+	public Brand(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -33,7 +33,7 @@ public class Brand {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -41,7 +41,7 @@ public class Brand {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -60,16 +60,22 @@ public class Brand {
 		this.name = name;
 	}
 
-	/**
-	 * 重写equals方法，只要id相同则认为是同一个数据
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Brand) {
-			Brand brand = (Brand) obj;
-			return this.id == brand.getId();
+		if (obj == this) {
+			return true;
 		}
-		return false;
+		if (!(obj instanceof Brand)) {
+			return false;
+		}
+		Brand brand = (Brand) obj;
+		// 只要id相同则认为是同一个数据
+		return this.id == brand.getId();
+	}
+
+	@Override
+	public int hashCode() {
+        return 31 * 17 + id.hashCode();
 	}
 
 }
