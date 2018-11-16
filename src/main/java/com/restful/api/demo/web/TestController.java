@@ -60,12 +60,12 @@ public class TestController {
 			throw new BusinessException("品牌编号必传");
 		}
 		if(brands==null || brands.isEmpty()) {
-			return ResponseEntity.noContent().build();
+			throw new BusinessException("数据异常");
 		}
 		brands.remove(new Brand(id));
 		return ResponseEntity.ok(MsgEnum.SUCCESS.msg("删除成功"));
 	}
-	
+
 	@ApiOperation(value = "更新品牌信息")
 	@PutMapping
 	public ResponseEntity<Brand> update(@RequestBody(required=true) Brand brand) {
@@ -81,7 +81,7 @@ public class TestController {
 				return ResponseEntity.ok(brand);
 			}
 		}
-		return ResponseEntity.noContent().build();
+		throw new BusinessException("数据异常");
 	}
 	
 	@ApiOperation(value = "获取品牌列表")
@@ -97,14 +97,14 @@ public class TestController {
 			throw new BusinessException("品牌编号必传");
 		}
 		if(brands==null || brands.isEmpty()) {
-			return ResponseEntity.noContent().build();
+			throw new BusinessException("数据异常");
 		}
 		for(Brand brand: brands) {
 			if(id == brand.getId()) {
 				return ResponseEntity.ok(brand);
 			}
 		}
-		return ResponseEntity.noContent().build();
+		throw new BusinessException("数据异常");
 	}
 
 }

@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -62,7 +65,11 @@ public class Swagger2Config {
 
 	@Bean
 	public Docket swaggerApi() {
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).groupName(groupName)
+		List<Parameter> pars = new ArrayList<>();
+        ParameterBuilder token = new ParameterBuilder();
+        token.name("token").description("token").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        pars.add(token.build());
+        return new Docket(DocumentationType.SWAGGER_2).globalOperationParameters(pars).apiInfo(apiInfo()).groupName(groupName)
 				.directModelSubstitute(LocalDate.class, String.class).genericModelSubstitutes(ResponseEntity.class)
 				.useDefaultResponseMessages(false)
 				.globalResponseMessage(RequestMethod.POST, customerResponseMessage())
@@ -74,7 +81,7 @@ public class Swagger2Config {
 	}
 
 	private List<ResponseMessage> customerResponseMessage() {
-		List<ResponseMessage> list = new ArrayList<ResponseMessage>();
+		List<ResponseMessage> list = new ArrayList<>();
 		list.add(new ResponseMessageBuilder().code(200).message("请求成功").build());
 		list.add(new ResponseMessageBuilder().code(201).message("资源创建成功").build());
 		list.add(new ResponseMessageBuilder().code(204).message("服务器成功处理了请求，但不需要返回任何实体内容").build());

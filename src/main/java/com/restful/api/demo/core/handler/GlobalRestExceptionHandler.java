@@ -52,7 +52,7 @@ public class GlobalRestExceptionHandler {
 	public ResponseEntity<String> accessExceptionHandler(AccessException e) {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	}
-
+	
 	/**
 	 * 非法参数异常
 	 * 
@@ -61,6 +61,11 @@ public class GlobalRestExceptionHandler {
 	 */
 	@ExceptionHandler(value = IllegalArgumentException.class)
 	public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException e) {
+		return ResponseEntity.badRequest().body(MsgEnum.ERROR.msg(e.getMessage()));
+	}
+
+	@ExceptionHandler(value = IllegalStateException.class)
+	public ResponseEntity<String> illegalStateExceptionHandler(IllegalStateException e) {
 		return ResponseEntity.badRequest().body(MsgEnum.ERROR.msg(e.getMessage()));
 	}
 
@@ -113,7 +118,7 @@ public class GlobalRestExceptionHandler {
 	}
 
 	/**
-	 * 使用@Valid注解进行验证时未通过的异常
+	 * 使用@Valid/@Validated注解进行验证时未通过的异常
 	 * 
 	 * @param e
 	 * @return
@@ -122,13 +127,12 @@ public class GlobalRestExceptionHandler {
 	public ResponseEntity<String> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
 		BindingResult bindingResult = e.getBindingResult();
 		List<ObjectError> allErrors = bindingResult.getAllErrors();
-		StringBuffer sb = new StringBuffer();
-		ObjectError oe = null;
-		for (int i = 0; i < allErrors.size(); i++) {
-			oe = allErrors.get(i);
-			sb.append(oe.getDefaultMessage()).append(";");
-		}
+		StringBuilder sb = new StringBuilder(10);
+		allErrors.stream().forEach(oe -> sb.append(oe.getDefaultMessage()).append(";"));
 		String body = sb.toString();
+		if (body.endsWith(";")) {
+			body = body.substring(0, body.length() - 1);
+		}
 		logger.error(body);
 		return ResponseEntity.badRequest().body(MsgEnum.ERROR.msg(body));
 	}
@@ -154,6 +158,6 @@ public class GlobalRestExceptionHandler {
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<String> exceptionHandler(Exception e) {
 		logger.error(e.getMessage(), e);
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(MsgEnum.ERROR.toString());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(MsgEnum.SYSTEM_ERROR.toString());
 	}
 }
