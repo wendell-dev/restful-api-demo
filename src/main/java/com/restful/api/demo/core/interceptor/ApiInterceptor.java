@@ -60,8 +60,9 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
 			paraName = parameterNames.nextElement();
 			logger.info("请求参数 ==>  {}: {}", paraName, request.getParameter(paraName));
 		}
+		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
+		response.setHeader("Access-Control-Allow-Headers", "*");
 		response.setCharacterEncoding("UTF-8");
 
 		// =========↓↓↓↓========= 进行token验证 =========↓↓↓=========
