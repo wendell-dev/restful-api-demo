@@ -15,7 +15,7 @@ public class IpUtils {
 	private IpUtils() {
 		throw new IllegalStateException("Utility class");
 	}
-	
+
 	/**
 	 * 获取请求IP地址
 	 * 
@@ -33,9 +33,6 @@ public class IpUtils {
 		}
 		if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
-		}
-		if ("0:0:0:0:0:0:0:1".equals(ip)) {
-			ip = "127.0.0.1";
 		}
 		if (ip.contains(",")) {
 			ip = ip.split(",")[0];

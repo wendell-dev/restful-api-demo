@@ -3,6 +3,8 @@ package com.restful.api.demo.core.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.restful.api.demo.core.exception.SystemException;
+
 /**
  * md5工具类
  * 
@@ -25,7 +27,7 @@ public class Md5 {
 		try {
 			md = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e.getMessage());
+			throw new SystemException(e.getMessage());
 		}
 		md.update(str.getBytes());
 		byte[] b = md.digest();

@@ -1,6 +1,9 @@
 package com.restful.api.demo.core.util;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import com.restful.api.demo.core.exception.SystemException;
 
 /**
  * ID策略生成器, 基于snowflake算法改造
@@ -46,16 +49,14 @@ public class IdWorker {
 			this.sequence = 0;
 		}
 		if (timestamp < this.lastTimestamp) {
-			try {
-				throw new Exception(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
-						this.lastTimestamp - timestamp));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			throw new SystemException(
+					String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds",
+							this.lastTimestamp - timestamp));
 		}
 
 		this.lastTimestamp = timestamp;
-		return (timestamp - TWEPOCH << TIMESTAMP_LEF_SHIFT) | (this.workerId << IdWorker.WORKER_ID_SHIFT) | (this.sequence);
+		return (timestamp - TWEPOCH << TIMESTAMP_LEF_SHIFT) | (this.workerId << IdWorker.WORKER_ID_SHIFT)
+				| (this.sequence);
 	}
 
 	private long tilNextMillis(final long lastTimestamp1) {
@@ -67,28 +68,22 @@ public class IdWorker {
 	}
 
 	private static long getAddress() {
+		String currentIpAddress = "";
 		try {
-			String currentIpAddress = InetAddress.getLocalHost().getHostAddress();
-			String[] str = currentIpAddress.split("\\.");
-			StringBuilder hardware = new StringBuilder();
-			for (int i = 0; i < str.length; i++) {
-				hardware.append(str[i]);
-			}
-			return Long.parseLong(hardware.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
+			currentIpAddress = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			return 2L;
 		}
-
-		return 2L;
+		String[] str = currentIpAddress.split("\\.");
+		StringBuilder hardware = new StringBuilder();
+		for (int i = 0; i < str.length; i++) {
+			hardware.append(str[i]);
+		}
+		return Long.parseLong(hardware.toString());
 	}
 
 	private long timeGen() {
 		return System.currentTimeMillis();
 	}
 
-	public static void main(final String[] args) {
-		for (int i = 0; i < 100; i++) {
-			System.out.println(getId());
-		}
-	}
 }

@@ -17,6 +17,8 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
 
+import com.restful.api.demo.core.exception.SystemException;
+
 /**
  * DES加密解密
  * 
@@ -133,7 +135,7 @@ public class Des {
 
 		// if there is STILL something wrong we just have to throw up now!
 		if (index != out.length) {
-			throw new Error("Miscalculated data length (wrote " + index + " instead of " + out.length + ")");
+			throw new SystemException("Miscalculated data length (wrote " + index + " instead of " + out.length + ")");
 		}
 		return out;
 	}

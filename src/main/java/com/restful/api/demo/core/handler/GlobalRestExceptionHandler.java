@@ -20,6 +20,7 @@ import org.springframework.web.client.RestClientException;
 import com.restful.api.demo.core.enums.MsgEnum;
 import com.restful.api.demo.core.exception.AccessException;
 import com.restful.api.demo.core.exception.BusinessException;
+import com.restful.api.demo.core.exception.SystemException;
 
 /**
  * 全局异常Handler
@@ -43,6 +44,18 @@ public class GlobalRestExceptionHandler {
 	}
 
 	/**
+	 * 自定义系统异常
+	 * 
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler(value = SystemException.class)
+	public ResponseEntity<String> systemExceptionHandler(SystemException e) {
+		logger.error(e.getMessage(), e);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(MsgEnum.SYSTEM_ERROR.toString());
+	}
+
+	/**
 	 * 自定义访问受限异常
 	 * 
 	 * @param e
@@ -52,7 +65,7 @@ public class GlobalRestExceptionHandler {
 	public ResponseEntity<String> accessExceptionHandler(AccessException e) {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	}
-	
+
 	/**
 	 * 非法参数异常
 	 * 
@@ -101,8 +114,7 @@ public class GlobalRestExceptionHandler {
 	 */
 	@ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<String> methodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e) {
-		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
-				.body(MsgEnum.ERROR.msg(e.getMethod() + "请求方法不支持"));
+		return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(MsgEnum.ERROR.msg(e.getMethod() + "请求方法不支持"));
 	}
 
 	/**
