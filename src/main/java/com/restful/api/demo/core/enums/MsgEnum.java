@@ -17,15 +17,7 @@ public enum MsgEnum {
 	/**
      * 未经过身份认证
      */
-	TOKEN_ERROR(401, "未经过身份认证"),
-	/**
-     * 服务器异常,请稍后再试
-     */
-	SYSTEM_ERROR(500, "服务器异常,请稍后再试"),
-	/**
-     * RPC或其他项目通信调用异常，外部服务异常
-     */
-	RPC_ERROR(503, "外部服务异常"),
+	AUTH_ERROR(401, "未经过身份认证"),
 	/**
      * token参数不存在,无访问权限
      */
@@ -34,6 +26,14 @@ public enum MsgEnum {
      * token验证失败,无访问权限
      */
 	CHECK_TOKEN(40102, "token验证失败,无访问权限"),
+	/**
+     * 服务器异常,请稍后再试
+     */
+	SYSTEM_ERROR(500, "服务器异常,请稍后再试"),
+	/**
+     * RPC或其他项目通信调用异常，外部服务异常
+     */
+	RPC_ERROR(503, "外部服务异常"),
 	;
 
 	private final int code;
