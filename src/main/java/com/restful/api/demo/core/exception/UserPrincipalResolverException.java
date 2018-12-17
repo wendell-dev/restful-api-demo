@@ -12,11 +12,11 @@ public class UserPrincipalResolverException extends RuntimeException {
 	private static final long serialVersionUID = -3476892562211755163L;
 
 	public UserPrincipalResolverException() {
-		super(MsgEnum.SYSTEM_ERROR.toString());
+		super(MsgEnum.USERPRINCIPAL_RESOLVER_ERROR.toString());
 	}
 
 	public UserPrincipalResolverException(String message) {
-		super(MsgEnum.SYSTEM_ERROR.msg(message));
+		super(MsgEnum.USERPRINCIPAL_RESOLVER_ERROR.msg(message));
 	}
 	
 }

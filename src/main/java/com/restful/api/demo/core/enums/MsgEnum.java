@@ -27,9 +27,25 @@ public enum MsgEnum {
      */
 	CHECK_TOKEN(40102, "token验证失败,无访问权限"),
 	/**
+	 * accessKeyId参数不存在
+	 */
+	NO_SECRET_ID(40151, "accessKeyId参数不存在"),
+	/**
+	 * sign签名参数不存在
+	 */
+	NO_SECRET_SIGN(40152, "sign签名参数不存在"),
+	/**
+	 * 请求校验失败
+	 */
+	CHECK_SECRET(40153, "请求校验失败"),
+	/**
      * 服务器异常,请稍后再试
      */
 	SYSTEM_ERROR(500, "服务器异常,请稍后再试"),
+	/**
+     * 用户信息解析异常,请稍后再试
+     */
+	USERPRINCIPAL_RESOLVER_ERROR(50001, "用户信息解析异常,请稍后再试"),
 	/**
      * RPC或其他项目通信调用异常，外部服务异常
      */

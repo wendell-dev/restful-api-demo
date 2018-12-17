@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
  * 
  * <pre>
  * 1. 在需要登录的API方法上加上此注解 
- * 2. 直接在API类上使用,代表该API类的所有方法均需要身份验证
+ * 2. 直接在API类上使用,代表该API类的所有方法均需要token验证
+ * 3. 直接在API类上使用,如果类中有方法不需要签名则hasAccess参数置为False
  * </pre>
  * 
  * @author wendell
@@ -24,6 +25,6 @@ public @interface AccessToken {
 	 * 
 	 * @return
 	 */
-	boolean access() default true;
+	boolean hasAccess() default true;
 
 }

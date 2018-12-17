@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.restful.api.demo.core.interceptor.ApiInterceptor;
+import com.restful.api.demo.core.handler.RequestParamHandler;
 import com.restful.api.demo.core.resolver.UserPrincipalMethodArgumentResolver;
 
 /**
@@ -26,7 +26,7 @@ import com.restful.api.demo.core.resolver.UserPrincipalMethodArgumentResolver;
 public class ApiMvcConfiguration extends WebMvcConfigurerAdapter {
 
 	@Autowired
-	private ApiInterceptor apiInterceptor;
+	private RequestParamHandler requestParamHandler;
 
 	@Autowired
 	private UserPrincipalMethodArgumentResolver userPrincipalMethodArgumentResolver;
@@ -55,7 +55,7 @@ public class ApiMvcConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 自定义API-拦截器
-		registry.addInterceptor(apiInterceptor).addPathPatterns("/**");
+		registry.addInterceptor(requestParamHandler).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 

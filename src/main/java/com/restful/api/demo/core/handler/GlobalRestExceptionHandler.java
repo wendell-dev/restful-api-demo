@@ -21,6 +21,7 @@ import com.restful.api.demo.core.enums.MsgEnum;
 import com.restful.api.demo.core.exception.AccessException;
 import com.restful.api.demo.core.exception.BusinessException;
 import com.restful.api.demo.core.exception.SystemException;
+import com.restful.api.demo.core.exception.UserPrincipalResolverException;
 
 /**
  * 全局异常Handler
@@ -44,6 +45,17 @@ public class GlobalRestExceptionHandler {
 	}
 
 	/**
+	 * 自定义访问受限异常
+	 * 
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler(value = AccessException.class)
+	public ResponseEntity<String> accessExceptionHandler(AccessException e) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	}
+
+	/**
 	 * 自定义系统异常
 	 * 
 	 * @param e
@@ -56,14 +68,15 @@ public class GlobalRestExceptionHandler {
 	}
 
 	/**
-	 * 自定义访问受限异常
+	 * 自定义用户信息解析异常
 	 * 
 	 * @param e
 	 * @return
 	 */
-	@ExceptionHandler(value = AccessException.class)
-	public ResponseEntity<String> accessExceptionHandler(AccessException e) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	@ExceptionHandler(value = UserPrincipalResolverException.class)
+	public ResponseEntity<String> userPrincipalResolverException(UserPrincipalResolverException e) {
+		logger.error(e.getMessage(), e);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(MsgEnum.SYSTEM_ERROR.toString());
 	}
 
 	/**
