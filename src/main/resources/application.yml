@@ -6,6 +6,21 @@ spring:
   devtools:
     restart:
       enabled: true
+  # redis作为缓存
+  cache:
+    type: redis
+  # redis
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password: 
+    timeout: 0
+    pool:
+      max-active: 8
+      max-wait: -1
+      min-idle: 0
+      max-idle: 8
 
 #swagger 配置
 swagger: 
