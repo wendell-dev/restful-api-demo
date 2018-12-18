@@ -12,9 +12,27 @@
 
 ## TOKEN验证
 当我们的API需要登录后才能访问时，简单做法是登录验证成功后给客户端生成一个token，客户端后续的请求都需要带上这个token参数，服务端对这个token进行验证，验证通过即可访问API。本项目中也集成token的生成，同时通过拦截器统一验证了token的有效性，这依赖于redis来存储token，但这也是比较流行的做法。
+你只需要在controller中需要的地方加入@AccessToken注解即可，同时如果你需要当前登录的用户信息，只需要在方法参数中加入@UserPrincipal注解修饰参数UserPrincipalVO即可。
+代码示例：
+```
+@PostMapping("/test")
+@AccessToken
+public ResponseEntity<UserPrincipalVO> test(@UserPrincipal UserPrincipalVO user) {
+	return ResponseEntity.ok(user);
+}
+```
 
 ## 参数签名验证
-当我们的API需要作为开放接口时，一般会为接入方分配对应的accessKey和secret，接入方每次请求我们的API时，需要把accessKey和secret与其他参数进行统一的方式签名得到签名串sign，同时把sign作为参数传送给服务端（通常在header中），服务端对请求进行处理后验证sign是否正确，验证通过即可访问API。本项目中同样集成了请求签名，通过拦截器统一进行签名验证，同时也支持使用@RequestBody注解的请求参数。
+当我们的API需要作为开放接口时，一般会为接入方分配对应的accessKey和secret，接入方每次请求我们的API时，需要把accessKey和secret与其他参数进行统一的方式签名得到签名串sign，同时把sign作为参数传送给服务端（通常在header中），服务端对请求进行处理后验证sign是否正确，验证通过即可访问API。本项目中同样集成了请求签名，通过拦截器统一进行签名验证，同时也支持使用@RequestBody注解的请求参数。你只需要在controller的方法中需要的地方加入@Sign注解即可，非常简单。
+代码示例：
+```
+@GetMapping("/sign")
+@Sign
+public ResponseEntity<String> signTest(@RequestParam Long id, @RequestParam String name) {
+	// 返回结果为JSON格式
+	return ResponseEntity.ok(MsgEnum.SUCCESS.msg("签名验证成功"));
+}
+```
 
 ## 打包
 mvn clean package
