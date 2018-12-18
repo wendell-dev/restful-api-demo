@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.restful.api.demo.core.annotation.AccessToken;
 import com.restful.api.demo.core.annotation.Sign;
+import com.restful.api.demo.core.annotation.UserPrincipal;
 import com.restful.api.demo.core.exception.BusinessException;
+import com.restful.api.demo.core.resolver.UserPrincipalVO;
 import com.restful.api.demo.model.Demo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * 测试接口 - controller类
@@ -86,6 +90,13 @@ public class TestController {
 			}
 		}
 		return ResponseEntity.notFound().build();
+	}
+
+	@ApiOperation(value = "token测试")
+	@GetMapping("/token")
+	@AccessToken
+	public ResponseEntity<UserPrincipalVO> testToken(@ApiIgnore @UserPrincipal UserPrincipalVO user) {
+		return ResponseEntity.ok(user);
 	}
 
 	@ApiOperation(value = "签名测试 - GET请求参数")
