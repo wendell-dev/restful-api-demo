@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.restful.api.demo.core.annotation.AccessToken;
 import com.restful.api.demo.core.annotation.Sign;
 import com.restful.api.demo.core.annotation.UserPrincipal;
+import com.restful.api.demo.core.enums.MsgEnum;
 import com.restful.api.demo.core.exception.BusinessException;
 import com.restful.api.demo.core.resolver.UserPrincipalVO;
 import com.restful.api.demo.model.Demo;
@@ -50,7 +51,7 @@ public class TestController {
 
 	@ApiOperation(value = "更新Demo信息", notes = "更新资源成功返回204,资源与客户端请求参数体未发生改变,资源若不存在则响应404")
 	@PutMapping
-	public ResponseEntity<Demo> update(@Validated @RequestBody(required = true) Demo demo) {
+	public ResponseEntity<Void> update(@Validated @RequestBody(required = true) Demo demo) {
 		for (Demo o : demos) {
 			if (o.getId().equals(demo.getId())) {
 				o.setName(demo.getName());
@@ -62,7 +63,7 @@ public class TestController {
 
 	@ApiOperation(value = "根据Demo编号删除Demo信息", notes = "删除资源成功返回204,资源若不存在则响应404")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable(name = "id", required = true) Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable(name = "id", required = true) Long id) {
 		validateId(id);
 		validateNull();
 		boolean removed = demos.removeIf(o -> o.getId().equals(id));
@@ -103,14 +104,14 @@ public class TestController {
 	@GetMapping("/sign")
 	@Sign
 	public ResponseEntity<String> signTest(@RequestParam Long id, @RequestParam String name) {
-		return ResponseEntity.ok("签名验证成功");
+		return ResponseEntity.ok(MsgEnum.msg("签名验证成功"));
 	}
 
 	@ApiOperation(value = "签名测试 - POST请求body参数")
 	@PostMapping("/sign")
 	@Sign
 	public ResponseEntity<String> signTest(@RequestBody(required = true) Demo demo) {
-		return ResponseEntity.ok("签名验证成功");
+		return ResponseEntity.ok(MsgEnum.msg("签名验证成功"));
 	}
 
 	private void validateId(Long id) {
