@@ -24,7 +24,7 @@ public ResponseEntity<UserPrincipalVO> testToken(@ApiIgnore @UserPrincipal UserP
 ```
 
 ## 参数签名验证
-当我们的API需要作为开放接口时，一般会为接入方分配对应的accessKey和secret，接入方每次请求我们的API时，需要把accessKey和secret与其他参数进行统一的方式签名得到签名串sign，同时把sign作为参数传送给服务端（通常在header中），服务端对请求进行处理后验证sign是否正确，验证通过即可访问API。本项目中同样集成了请求签名，通过拦截器统一进行签名验证，同时也支持使用@RequestBody注解的请求参数。你只需要在controller的方法中需要的地方加入@Sign注解即可，非常简单。
+当我们的API需要作为开放接口时，一般会为接入方分配对应的accessKey和secret，接入方每次请求我们的API时，需要把accessKey和secret与其他参数进行统一的方式签名得到签名串sign，同时把sign作为参数传送给服务端（通常在header中），服务端对请求进行处理后验证sign是否正确，验证通过即可访问API。本项目中同样集成了请求签名，通过拦截器统一进行签名验证，同时也支持使用@RequestBody注解的请求参数。你只需要在controller中需要的地方加入@Sign注解即可，非常简单。
 代码示例：
 ```
 @GetMapping("/sign")
@@ -38,6 +38,19 @@ public ResponseEntity<String> signTest(@RequestParam Long id, @RequestParam Stri
 ## 打包
 mvn clean package
 ## 运行项目
-java -jar restful-api-demo-0.0.1-SNAPSHOT.jar
-## 本地接口文档测试访问地址
-http://localhost/swagger-ui.html
+java -jar target/restful-api-demo-0.0.1-SNAPSHOT.jar
+## 测试访问地址
+http://localhost:8081/swagger-ui.html
+
+## dockerfile-maven-plugin构建镜像
+mvn clean package dockerfile:build
+## 或者docker命令构建镜像
+docker build -t wendell/restful-api-demo .
+## 启动容器
+docker run-p 8081:8081 -d --name restful-api-demo wendell/restful-api-demo
+## 测试访问地址
+http://localhost:8081/swagger-ui.html
+
+
+
+
