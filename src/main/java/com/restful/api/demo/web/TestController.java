@@ -104,14 +104,14 @@ public class TestController {
 	@GetMapping("/sign")
 	@Sign
 	public ResponseEntity<String> signTest(@RequestParam Long id, @RequestParam String name) {
-		return ResponseEntity.ok(MsgEnum.msg("签名验证成功"));
+		return ResponseEntity.ok(MsgEnum.SUCCESS.msg("签名验证成功"));
 	}
 
 	@ApiOperation(value = "签名测试 - POST请求body参数")
 	@PostMapping("/sign")
 	@Sign
 	public ResponseEntity<String> signTest(@RequestBody(required = true) Demo demo) {
-		return ResponseEntity.ok(MsgEnum.msg("签名验证成功"));
+		return ResponseEntity.ok(MsgEnum.SUCCESS.msg("签名验证成功"));
 	}
 
 	private void validateId(Long id) {
