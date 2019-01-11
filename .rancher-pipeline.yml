@@ -11,4 +11,8 @@ stages:
       buildContext: .
       tag: wendell/restful-api-demo
       registry: 127.0.0.1:34834
+- name: Deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
 timeout: 60
