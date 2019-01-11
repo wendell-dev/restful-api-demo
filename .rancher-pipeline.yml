@@ -9,7 +9,7 @@ stages:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
-      tag: wendell/restful-api-demo
+      tag: wendell/restful-api-demo:${CICD_EXECUTION_SEQUENCE}
       registry: 127.0.0.1:34834
 - name: Deploy
   steps:

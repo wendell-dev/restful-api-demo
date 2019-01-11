@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: restful-api-demo
+spec:
+  selector:
+    app: restful-api-demo
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restful-api-demo
+  labels:
+    app: restful-api-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restful-api-demo
+  template:
+    metadata:
+      labels:
+        app: restful-api-demo
+    spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
+      containers:
+      - name: maven
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        ports:
+        - containerPort: 8081
