@@ -47,9 +47,10 @@ http://localhost:8081/swagger-ui.html
 
 ## 运行项目 - 本地docker环境中构建
 ```
-## dockerfile-maven-plugin构建镜像
+## dockerfile-maven-plugin打包并构建镜像
 mvn clean package dockerfile:build
-## 或者docker命令构建镜像
+## 或者打包后使用docker命令构建镜像
+mvn clean package
 docker build -t wendell/restful-api-demo .
 ## 启动容器
 docker run-p 8081:8081 -d --name restful-api-demo wendell/restful-api-demo
