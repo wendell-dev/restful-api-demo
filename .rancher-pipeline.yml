@@ -2,6 +2,6 @@ stages:
 - name: Build
   steps:
   - runScriptConfig:
-      image: maven:alpine
-      shellScript: mvn clean package -DskipTests=true dockerfile:build
+      image: maven:3.6.0-jdk-8-alpine
+      shellScript: mvn clean package -DskipTests=true
 timeout: 60
