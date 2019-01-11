@@ -35,13 +35,18 @@ public ResponseEntity<String> signTest(@RequestParam Long id, @RequestParam Stri
 }
 ```
 
+## 运行项目 - 本地maven构建
+```
 ## 打包
 mvn clean package
 ## 运行项目
 java -jar target/restful-api-demo-0.0.1-SNAPSHOT.jar
 ## 测试访问地址
 http://localhost:8081/swagger-ui.html
+```
 
+## 运行项目 - 本地docker环境中构建
+```
 ## dockerfile-maven-plugin构建镜像
 mvn clean package dockerfile:build
 ## 或者docker命令构建镜像
@@ -50,6 +55,7 @@ docker build -t wendell/restful-api-demo .
 docker run-p 8081:8081 -d --name restful-api-demo wendell/restful-api-demo
 ## 测试访问地址
 http://localhost:8081/swagger-ui.html
+```
 
 
 

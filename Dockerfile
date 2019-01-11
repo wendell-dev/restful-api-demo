@@ -1,7 +1,7 @@
 # 1. Build with: docker build -t wendell/restful-api-demo .
-# 2. Run with: docker run-p 8081:8081 -d --name restful-api-demo wendell/restful-api-demo
+# 2. Run with: docker run -p 8081:8081 -d --name restful-api-demo wendell/restful-api-demo
 # @see: https://spring.io/guides/gs/spring-boot-docker/#_containerize_it
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 ARG DEPENDENCY=target/dependency
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
