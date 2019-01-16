@@ -23,6 +23,7 @@ import com.restful.api.demo.core.annotation.Sign;
 import com.restful.api.demo.core.annotation.UserPrincipal;
 import com.restful.api.demo.core.enums.MsgEnum;
 import com.restful.api.demo.core.exception.BusinessException;
+import com.restful.api.demo.core.exception.NotFoundException;
 import com.restful.api.demo.core.resolver.UserPrincipalVO;
 import com.restful.api.demo.model.Demo;
 
@@ -58,7 +59,7 @@ public class TestController {
 				return ResponseEntity.noContent().build();
 			}
 		}
-		return ResponseEntity.notFound().build();
+		throw new NotFoundException();
 	}
 
 	@ApiOperation(value = "根据Demo编号删除Demo信息", notes = "删除资源成功返回204,资源若不存在则响应404")
@@ -70,7 +71,7 @@ public class TestController {
 		if (removed) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.notFound().build();
+		throw new NotFoundException();
 	}
 
 	@ApiOperation(value = "获取Demo列表", notes = "列表资源有数据响应200,无数据则响应204")
@@ -90,7 +91,7 @@ public class TestController {
 				return ResponseEntity.ok(demo);
 			}
 		}
-		return ResponseEntity.notFound().build();
+		throw new NotFoundException();
 	}
 
 	@ApiOperation(value = "token测试")

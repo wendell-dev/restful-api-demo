@@ -39,6 +39,10 @@ public enum MsgEnum {
 	 */
 	CHECK_SECRET(40153, "请求校验失败"),
 	/**
+     * 资源不存在
+     */
+	NOT_FOUND(404, "资源不存在"),
+	/**
      * 服务器异常,请稍后再试
      */
 	SYSTEM_ERROR(500, "服务器异常,请稍后再试"),

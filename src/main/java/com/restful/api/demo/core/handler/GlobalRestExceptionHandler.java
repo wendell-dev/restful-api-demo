@@ -20,6 +20,7 @@ import org.springframework.web.client.RestClientException;
 import com.restful.api.demo.core.enums.MsgEnum;
 import com.restful.api.demo.core.exception.AccessException;
 import com.restful.api.demo.core.exception.BusinessException;
+import com.restful.api.demo.core.exception.NotFoundException;
 import com.restful.api.demo.core.exception.SystemException;
 import com.restful.api.demo.core.exception.UserPrincipalResolverException;
 
@@ -53,6 +54,17 @@ public class GlobalRestExceptionHandler {
 	@ExceptionHandler(value = AccessException.class)
 	public ResponseEntity<String> accessExceptionHandler(AccessException e) {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+	}
+
+	/**
+	 * 自定义资源不存在异常
+	 * 
+	 * @param e
+	 * @return
+	 */
+	@ExceptionHandler(value = NotFoundException.class)
+	public ResponseEntity<Void> notFoundExceptionHandler(NotFoundException e) {
+		return ResponseEntity.notFound().build();
 	}
 
 	/**
