@@ -102,17 +102,15 @@ public class RequestParamHandler extends HandlerInterceptorAdapter {
 			// 不需要验证
 			return true;
 		}
-		boolean signSuccess = false;
-		boolean tokenSuccess = false;
 		if (!existSign) {
 			// 进行签名验证
-			signSuccess = validateSign(request, paraMap, method);
+			validateSign(request, paraMap, method);
 		}
 		if (!existToken) {
 			// 进行token验证
-			tokenSuccess = validateToken(request);
+			validateToken(request);
 		}
-		return signSuccess && tokenSuccess;
+		return true;
 	}
 
 	/**
