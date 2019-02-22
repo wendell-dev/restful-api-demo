@@ -1,0 +1,21 @@
+# =====================================================================
+# 使用多阶段构建镜像
+# =====================================================================
+FROM wendell023/maven:latest as builder
+ADD pom.xml pom.xml
+ADD src src
+RUN mvn clean package -DskipTests=true
+
+FROM openjdk:8-jdk-alpine
+RUN echo "https://mirrors.aliyun.com/alpine/v3.8/main/" > /etc/apk/repositories \
+  && echo "https://mirrors.aliyun.com/alpine/v3.8/community/" >> /etc/apk/repositories \
+  && apk add --no-cache tzdata \
+  && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone \
+  && apk del tzdata
+VOLUME /tmp
+COPY --from=builder target target
+ARG DEPENDENCY=target/dependency
+COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY ${DEPENDENCY}/META-INF /app/META-INF
+COPY ${DEPENDENCY}/BOOT-INF/classes /app
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-cp","app:app/lib/*","com.restful.api.demo.App"]
