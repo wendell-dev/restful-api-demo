@@ -23,4 +23,7 @@ public class Demo {
 	@NotBlank(message = "名称不能为空")
 	@ApiModelProperty(value = "名称")
 	private String name;
+	
+	@ApiModelProperty(value = "昵称")
+	private String nickName;
 }

@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,19 +48,7 @@ public class TestController {
 	@PostMapping
 	public ResponseEntity<Demo> create(@Validated @RequestBody(required = true) Demo demo) {
 		demos.add(demo);
-		return ResponseEntity.created(URI.create("http://localhost/demos/" + demo.getId())).body(demo);
-	}
-
-	@ApiOperation(value = "更新Demo信息", notes = "更新资源成功返回204,资源与客户端请求参数体未发生改变,资源若不存在则响应404")
-	@PutMapping
-	public ResponseEntity<Void> update(@Validated @RequestBody(required = true) Demo demo) {
-		for (Demo o : demos) {
-			if (o.getId().equals(demo.getId())) {
-				o.setName(demo.getName());
-				return ResponseEntity.noContent().build();
-			}
-		}
-		throw new NotFoundException();
+		return ResponseEntity.created(URI.create("http://localhost:8081/tests/" + demo.getId())).body(demo);
 	}
 
 	@ApiOperation(value = "根据Demo编号删除Demo信息", notes = "删除资源成功返回204,资源若不存在则响应404")
@@ -70,6 +59,36 @@ public class TestController {
 		boolean removed = demos.removeIf(o -> o.getId().equals(id));
 		if (removed) {
 			return ResponseEntity.noContent().build();
+		}
+		throw new NotFoundException();
+	}
+
+	@ApiOperation(value = "全量更新Demo信息", notes = "更新资源成功返回204,资源与客户端请求参数体未发生改变,资源若不存在则响应404")
+	@PutMapping
+	public ResponseEntity<Void> update(@Validated @RequestBody(required = true) Demo demo) {
+		for (Demo o : demos) {
+			if (o.getId().equals(demo.getId())) {
+				o.setName(demo.getName());
+				o.setNickName(demo.getNickName());
+				return ResponseEntity.noContent().build();
+			}
+		}
+		throw new NotFoundException();
+	}
+	
+	@ApiOperation(value = "部分更新Demo信息-更新昵称", notes = "更新资源成功返回200,资源若不存在则响应404")
+	@PatchMapping("/{id}")
+	public ResponseEntity<Demo> update(@PathVariable(name = "id", required = true) Long id,
+			@RequestParam(name = "nickName", required = true) String nickName) {
+		validateId(id);
+		if (StringUtils.isEmpty(nickName)) {
+			throw new BusinessException("昵称不能为空");
+		}
+		for (Demo o : demos) {
+			if (o.getId().equals(id)) {
+				o.setNickName(nickName);
+				return ResponseEntity.ok(o);
+			}
 		}
 		throw new NotFoundException();
 	}
@@ -86,9 +105,9 @@ public class TestController {
 	public ResponseEntity<Demo> getById(@PathVariable(name = "id", required = true) Long id) {
 		validateId(id);
 		validateNull();
-		for (Demo demo : demos) {
-			if (id.equals(demo.getId())) {
-				return ResponseEntity.ok(demo);
+		for (Demo o : demos) {
+			if (id.equals(o.getId())) {
+				return ResponseEntity.ok(o);
 			}
 		}
 		throw new NotFoundException();
