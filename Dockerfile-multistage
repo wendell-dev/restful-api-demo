@@ -1,11 +1,11 @@
-﻿# =====================================================================
+﻿﻿# =====================================================================
 # 使用多阶段构建镜像
 # =====================================================================
 FROM wendell023/maven:latest as builder
-RUN mv -f /usr/share/maven/ref/settings.xml /usr/share/maven/conf/settings.xml
 ADD pom.xml pom.xml
 ADD src src
-RUN mvn clean package -DskipTests=true
+RUN mv -f /usr/share/maven/ref/settings.xml /usr/share/maven/conf/settings.xml \
+  && mvn clean package -DskipTests=true
 
 FROM openjdk:8-jdk-alpine
 RUN echo "https://mirrors.aliyun.com/alpine/v3.8/main/" > /etc/apk/repositories \
