@@ -263,7 +263,7 @@ public class RequestSignUtils {
 	 * @param str
 	 * @return
 	 */
-	public static String md5(String str) {
+	private static String md5(String str) {
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("MD5");

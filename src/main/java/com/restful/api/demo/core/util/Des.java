@@ -113,22 +113,30 @@ public class Des {
 		}
 		byte[] out = new byte[len];
 
-		int shift = 0; // # of excess bits stored in accum
-		int accum = 0; // excess bits
+		// # of excess bits stored in accum
+		int shift = 0;
+		// excess bits
+		int accum = 0;
 		int index = 0;
 
 		// we now go through the entire array (NOT using the 'tempLen' value)
 		for (int ix = 0; ix < data.length; ix++) {
 			int value = (data[ix] > 255) ? -1 : codes[data[ix]];
 
-			if (value >= 0) { // skip over non-code
-				accum <<= 6; // bits shift up by 6 each time thru
-				shift += 6; // loop, with new bits being put in
-				accum |= value; // at the bottom.
-				if (shift >= 8) { // whenever there are 8 or more shifted in,
-					shift -= 8; // write them out (from the top, leaving any
-					out[index++] = // excess at the bottom for next iteration.
-							(byte) ((accum >> shift) & 0xff);
+			// skip over non-code
+			if (value >= 0) {
+				// bits shift up by 6 each time thru
+				accum <<= 6;
+				// loop, with new bits being put in
+				shift += 6;
+				// at the bottom.
+				accum |= value;
+				// whenever there are 8 or more shifted in,
+				if (shift >= 8) {
+					// write them out (from the top, leaving any
+					shift -= 8;
+					// excess at the bottom for next iteration.
+					out[index++] = (byte) ((accum >> shift) & 0xff);
 				}
 			}
 		}
@@ -172,14 +180,14 @@ public class Des {
 		}
 	}
 
-	//
-	// code characters for values 0..63
-	//
+	/**
+	 * code characters for values 0..63
+	 */
 	private static char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".toCharArray();
 
-	//
-	// lookup table for converting base64 characters to value in range 0..63
-	//
+	/**
+	 * lookup table for converting base64 characters to value in range 0..63
+	 */
 	private static byte[] codes = new byte[256];
 	static {
 		for (int i = 0; i < 256; i++) {

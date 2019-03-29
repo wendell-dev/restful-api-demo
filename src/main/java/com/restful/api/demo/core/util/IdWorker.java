@@ -12,9 +12,13 @@ import com.restful.api.demo.core.exception.SystemException;
  */
 public class IdWorker {
 
-	// 根据具体机器环境提供
+	/**
+	 * 根据具体机器环境提供
+	 */
 	private final long workerId;
-	// 滤波器,使时间变小,生成的总位数变小,一旦确定不能变动
+	/**
+	 * 滤波器,使时间变小,生成的总位数变小,一旦确定不能变动
+	 */
 	private static final long TWEPOCH = 1361753741828L;
 	private long sequence = 0L;
 	private static final long WORKER_ID_BIS = 10L;
@@ -27,7 +31,9 @@ public class IdWorker {
 
 	private long lastTimestamp = -1L;
 
-	// 根据主机id获取机器码
+	/**
+	 * 根据主机id获取机器码
+	 */
 	private static IdWorker worker = new IdWorker();
 
 	public IdWorker() {

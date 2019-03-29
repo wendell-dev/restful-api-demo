@@ -11,6 +11,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * Demo对象
+ * 
+ * @author wendell
+ */
 @JsonInclude(Include.NON_NULL)
 @ApiModel(value = "Demo", description = "Demo对象")
 @Data

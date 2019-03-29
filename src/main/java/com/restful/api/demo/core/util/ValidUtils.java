@@ -170,7 +170,7 @@ public class ValidUtils {
 	}
 
 	/**
-	 * 精准验证身份证是否合法
+	 * 精准验证是否是合法身份证
 	 * 
 	 * @param input
 	 * @return
@@ -199,7 +199,8 @@ public class ValidUtils {
 		String year = input.length() == 15 ? "19" + input.substring(6, 8) : input.substring(6, 10);
 		final int iyear = Integer.parseInt(year);
 		if (iyear < 1900 || iyear > Calendar.getInstance().get(Calendar.YEAR)) {
-			return false;// 1900年的PASS，超过今年的PASS
+			// 1900年的PASS，超过今年的PASS
+			return false;
 		}
 		// 校验月份
 		String month = input.length() == 15 ? input.substring(8, 10) : input.substring(10, 12);
@@ -299,7 +300,7 @@ public class ValidUtils {
 		if (uppervin.indexOf('O') >= 0 || uppervin.indexOf('I') >= 0) {
 			return false;
 		}
-		Boolean flag = false;
+		boolean flag = false;
 		Map<Integer, Integer> vinMapWeighting = new HashMap<>(17);
 		Map<Character, Integer> vinMapValue = new HashMap<>(32);
 		vinMapWeighting.put(1, 8);
