@@ -1,6 +1,13 @@
 # 基于springBoot编写的RESTFul API
 本项目可用于快速搭建基于springBoot的RESTFul API服务，同时集成了swagger作为接口的在线文档与调试工具，数据交互格式建议是JSON格式。
 
+## 增强理解
+
+[Spring Boot集成swagger2生成接口文档](https://www.jianshu.com/p/a115c9367a59)
+
+[自定义RESTful API服务规范](https://www.jianshu.com/p/bdea0385a77e)
+
+
 ## RESTFul API
 首先本项目是一个RESTFul API服务的demo，与此同时再集成了一些做API常用的工具。 对于RESTFul API服务各有各的见解，网上大多是自己封装了controller层统一格式返回，通常情况下，不管你怎么请求，它总是响应你的http状态码为200。 而本项目中充分结合了HTTP状态码规范，使用ResponseEntity + HttpStatus的方式完成我们的API。当然，你想做一个完全具有RESTFul风格的API，你需要具有良好的RESTFul风格的资源设计能力。
 
